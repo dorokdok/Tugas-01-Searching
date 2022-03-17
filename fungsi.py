@@ -19,7 +19,7 @@ def buatPopulasi(size: int, panjangGen : int) -> Populasi:
 def fitness(gen: Genome) -> float:
     return
 def rankFit(populasi: Populasi) -> Rank:
-    return [fitness(populasi[i]) for i in range(len(populasi))]
+    return [fitness(populasi[i]) for i in range(len(populasi))].sort()
 
 def sortPopulasi(populasi: Populasi, rankFit : Rank) -> Populasi:
     return [x for _, x in sorted(zip(rankFit,Populasi))]
