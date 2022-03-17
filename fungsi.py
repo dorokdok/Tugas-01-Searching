@@ -4,7 +4,7 @@ import math
 
 Genome = List[int]
 Populasi = List[Genome]
-Rank = List[Genome]
+Rank = List[float]
 Cross = List[Genome]
 
 def buat_genome(length: int) -> Genome:
@@ -19,11 +19,11 @@ def fitness(gen: Genome) -> float:
 def rankFit(populasi: Populasi) -> Rank:
     return [fitness(populasi[i]) for i in range(len(populasi))]
 
-def sortPopulasi(populasi: Populasi, rankFit : Rank) -> Rank:
+def sortPopulasi(populasi: Populasi, rankFit : Rank) -> Populasi:
     return [x for _, x in sorted(zip(rankFit,Populasi))]
 
 def crossover(a: Genome, b: Genome)-> Cross:
-    p = len(a)/2
+    p = int(len(a)/2)
     return [a[0:p] + b[p], b[0:p] + a[p]]
 
 def mutation(gen: Genome, num : int = 1, prob : float = 0.5)-> Genome:
