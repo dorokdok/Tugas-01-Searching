@@ -1,3 +1,4 @@
+from audioop import reverse
 from random import choices, randrange, random
 from typing import List
 import math
@@ -6,6 +7,7 @@ Genome = List[int]
 Populasi = List[Genome]
 Rank = List[float]
 Cross = List[Genome]
+Parent = List[Genome]
 
 def buat_genome(length: int) -> Genome:
     return choices([0,1], k=length)
@@ -21,6 +23,9 @@ def rankFit(populasi: Populasi) -> Rank:
 
 def sortPopulasi(populasi: Populasi, rankFit : Rank) -> Populasi:
     return [x for _, x in sorted(zip(rankFit,Populasi))]
+
+def selectParent(populasi: Populasi, nilai : Rank) -> Parent:
+    return choices(populasi, weights = nilai.reverse(), k=2)
 
 def crossover(a: Genome, b: Genome)-> Cross:
     p = int(len(a)/2)
