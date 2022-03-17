@@ -29,7 +29,7 @@ def selectParent(populasi: Populasi, nilai : Rank) -> Parent:
 
 def crossover(a: Genome, b: Genome)-> Cross:
     p = int(len(a)/2)
-    return [a[0:p] + b[p], b[0:p] + a[p]]
+    return [a[0:p] + b[p:len(a)], b[0:p] + a[p:len(a)]]
 
 def mutation(gen: Genome, num : int = 1, prob : float = 0.5)-> Genome:
     for i in range(num):
