@@ -49,7 +49,7 @@ def decodeKro(gen:Genome,min: int, max: int)-> Dekode:
 def fitness(gen: Dekode) -> float:
     return ((math.cos(gen[0])+math.sin(gen[1]))**2/(gen[0]**2)*(gen[1]**2))
 
-#Pemilihan orang tua menggunakan Roulette wheel Selection di mana kromosom yang terbaik akan dipilih
+#Pemilihan orang tua menggunakan Roulette wheel Selection di mana kromosom yang terbaik akan kemungkinan besar dipilih 
 def selectParent(populasi: Populasi, nilai : Rank) -> Parent:
     return choices(populasi, weights = nilai.reverse(), k=2)
 
@@ -86,7 +86,7 @@ def evolution(popu: int, kromo: int, min: int, max: int) -> Genome:
             ranking.append(fitness(c))
         p = [x for _, x in sorted(zip(ranking,p))]
         ranking.sort()
-        #Tempat melakukan seleksi survivor dengan metode Elitism yang akan memilih 1 kromosom jika populasi ganjil dan 2 jika genap
+        #Tempat melakukan seleksi survivor dengan metode Elitism yang akan memilih 1 kromosom jika populasi ganjil dan 2 jika genap terbaik
         if popu % 2 == 0:
             newP.append(p[0])
             newP.append(p[1])
@@ -105,7 +105,7 @@ def evolution(popu: int, kromo: int, min: int, max: int) -> Genome:
             newP.append(mutB)
         p = newP
         gen += 1
-        #Perhentian generasi dilakukan jadi terdapat 3 kromosom dengan nilai sama
+        #Perhentian generasi dilakukan jadi terdapat 1/2 dari jumlah populasi kromosom dengan nilai sama
         if p[0] == p[len(p)//2]:
             break
 
