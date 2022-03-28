@@ -9,15 +9,16 @@ Cross = List[Genome]
 Parent = List[Genome]
 Dekode = List[float]
 
-#Pembuatan kromosom menggunakan binary encoding
+
 def buat_genome(length: int) -> Genome:
     return choices([0,1], k=length)
 
-#Pembuatan populasi berdasarankan ukuran populasi dan panjang kromosom/gen
+
 def buatPopulasi(size: int, panjangGen : int) -> Populasi:
     return [buat_genome(panjangGen) for i in range(size)]
 
-#Dekode untuk kromosom menggunakan decoder binary encoder
+
+#Melakukan decode dari kromosom binary menjadi nilai dengna selang min dan max
 def decodeKro(gen:Genome,min: int, max: int)-> Dekode:
     xB = 0
     xA = 0
@@ -45,15 +46,15 @@ def decodeKro(gen:Genome,min: int, max: int)-> Dekode:
     y = min + ((max-min)/yB)*yA
     return [x,y]
 
-
+#Memasukkan hasil decode ke rumus permasalahan
 def fitness(gen: Dekode) -> float:
-    return ((math.cos(gen[0])+math.sin(gen[1]))**2/(gen[0]**2)*(gen[1]**2))
+    return ((math.cos(gen[0])+math.sin(gen[1]))**2/((gen[0]**2)+(gen[1]**2)))
 
-#Pemilihan orang tua menggunakan Roulette wheel Selection di mana kromosom yang terbaik akan kemungkinan besar dipilih 
+#Memilih 2 parent terbaik
 def selectParent(populasi: Populasi, nilai : Rank) -> Parent:
     return choices(populasi, weights = nilai.reverse(), k=2)
 
-#Probabilitas operasi crossover menggunakan nilai 0.6 / 60%
+#Melakukan Crossover dengan probabilitas 60%
 def crossover(a: Genome, b: Genome)-> Cross:
     prob = choices([0,1], weights = [0.4,0.6], k = 1)
     if prob[0] == 1:
@@ -62,15 +63,14 @@ def crossover(a: Genome, b: Genome)-> Cross:
     else:
         return [a,b]
 
-#Probabilitas operasi mutasi menggunakan 0.5(terdapat pada fungsi evolusi di bawah)
+#Melakukan Mutasi dengan probabilitas 0.5%
 def mutation(gen: Genome, num : int, prob : float)-> Genome:
     for i in range(num):
         idx = randrange(len(gen))
         gen[idx] = gen[idx] if random() > prob else abs(gen[idx]-1)
     return gen
 
-#Fungsi untuk melakukan evolusi dengan inputan populasi yang diinginkan, panjang kromosom yang dibutuhkan, 
-# dan rentang minimal dan maksimal.
+#Menjalankan evolusi
 def evolution(popu: int, kromo: int, min: int, max: int) -> Genome:
     p = Populasi
     p = buatPopulasi(popu, kromo)
@@ -106,7 +106,7 @@ def evolution(popu: int, kromo: int, min: int, max: int) -> Genome:
         p = newP
         gen += 1
         #Perhentian generasi dilakukan jadi terdapat 1/2 dari jumlah populasi kromosom dengan nilai sama
-        if p[0] == p[len(p)//2]:
+        if (p[0] == p[len(p)//2]):
             break
 
     print("Generasi: ", gen)
